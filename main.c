@@ -22,8 +22,10 @@ void main(){
   PORTC.RC1 = 1; // Inicia Buzzy Desligado
 
   // Configurações do Led
-  TRISB = 0b00000000; // Configura como Saída
-  PORTB = 0b00000000; // Inicia todos os Leds Desligado
+  TRISB.RB2 = 0; // Configura como Saída
+  TRISB.RB3 = 0; // Configura como Saída
+  PORTB.RB2 = 0; // Inicia Led Desligado
+  PORTB.RB3 = 0; // Inicia Led Desligado
 
   // Configurações do 7 segmentos
   TRISA.RA2 = 0; // Configura como Saída
@@ -37,4 +39,8 @@ void main(){
   PORTA.RA3 = 1; // Módulo Display Ligado
   PORTA.RA4 = 1; // Módulo Display Ligado
   PORTA.RA5 = 1; // Módulo Display Ligado
+
+  // Configurações da Tecla RB1.
+  TRISB.RB1 = 1; // Configura como Entrada
+  PORTB.RB1 = 0; // Configura estado inicial (Simulação 0 => Carro saindo, 1 => Carro entrando)
 }
