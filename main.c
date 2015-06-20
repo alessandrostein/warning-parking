@@ -1,3 +1,24 @@
+void WaitForSec(unsigned int t){
+  int count = 0;
+  TMR0 = 0; // Configura o Timer iniciar em 0
+  OPTION_REG.T0CS = 0; // Configura o Timer para usar o Oscilador interno
+  OPTION_REG.T0SE = 0; // Configura se a borda é de subida(0) ou descida(1).
+  OPTION_REG.PSA = 0; // Configura o Prescaler para usar o Time0 module -> Se for 0 -> Watch Dog Timer
+  OPTION_REG.PS0 = 1; // Configura a faixa (escala) de seleção
+  OPTION_REG.PS1 = 1; // Configura a faixa (escala) de seleção
+  OPTION_REG.PS2 = 1; // Configura a faixa (escala) de seleção
+
+  while (1){
+    while (!INTCON.T0IF); // Flag de Interrupção do Temporizador 0
+    INTCON.T0IF = 0; // Limpa a Flag da Interrupção do Temporizador 0
+    count ++;
+    if (count == 30 * t){
+      count = 0;
+      break;
+    }
+  }
+}
+
 unsigned short mask(unsigned short num) {
   switch (num) {
     case 0: return 0x3F; break;
