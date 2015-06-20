@@ -1,3 +1,7 @@
+void interrupt(void) {
+  INTCON.INTF = 0; // Limpa a Flag da Interrupção para 0
+}
+
 void WaitForSec(unsigned int t){
   int count = 0;
   TMR0 = 0; // Configura o Timer iniciar em 0
@@ -10,7 +14,7 @@ void WaitForSec(unsigned int t){
 
   while (1){
     while (!INTCON.T0IF); // Flag de Interrupção do Temporizador 0
-    INTCON.T0IF = 0; // Limpa a Flag da Interrupção do Temporizador 0
+    INTCON.T0IF = 0; // Limpa a Flag da Interrupção do Temporizador para 0
     count ++;
     if (count == 30 * t){
       count = 0;
@@ -64,4 +68,11 @@ void main(){
   // Configurações da Tecla RB1.
   TRISB.RB1 = 1; // Configura como Entrada
   PORTB.RB1 = 0; // Configura estado inicial (Simulação 0 => Carro saindo, 1 => Carro entrando)
+
+  // Configurações do Interruptor Externo
+  TRISB.RB0 = 1; // Configura como Entrada
+  INTCON.GIE = 1; // Habilita Interruptor global
+  INTCON.INTE = 1; // Habilita RB0/Int Interrupção externa
+  INTCON.PEIE = 0; // Desabilita todas interrupções periférica desmascarado
+  OPTION_REG.INTEDG = 0; // Interrupção com borda de descida
 }
