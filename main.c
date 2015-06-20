@@ -1,3 +1,19 @@
+unsigned short mask(unsigned short num) {
+  switch (num) {
+    case 0: return 0x3F; break;
+    case 1: return 0x06; break;
+    case 2: return 0x5B; break;
+    case 3: return 0x4F; break;
+    case 4: return 0x66; break;
+    case 5: return 0x6D; break;
+    case 6: return 0x7D; break;
+    case 7: return 0x07; break;
+    case 8: return 0x7F; break;
+    case 9: return 0x6F; break;
+    default: return 0x00; break;
+  }
+}
+
 void main(){
   ADCON1 = 0x07; // Configura todas portas como Digital
 
