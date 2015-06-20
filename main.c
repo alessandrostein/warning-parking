@@ -72,7 +72,11 @@ void main(){
   // Configurações do Interruptor Externo
   TRISB.RB0 = 1; // Configura como Entrada
   INTCON.GIE = 1; // Habilita Interruptor global
-  INTCON.INTE = 1; // Habilita RB0/Int Interrupção externa
+  INTCON.INTE = 1; // Habilita RB0/INT Interrupção externa
   INTCON.PEIE = 0; // Desabilita todas interrupções periférica desmascarado
   OPTION_REG.INTEDG = 0; // Interrupção com borda de descida
+
+  while(1){
+    // That start tests =D
+  }
 }
