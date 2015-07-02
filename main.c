@@ -115,7 +115,11 @@ void main (){
   DesligaLed();
 
   while (1){
-    Lcd_Chr(1,8, short_to_char(vagas));
+    if (vagas == 0) {
+      Lcd_out(1,1,"**** LOTADO *****");
+    } else {
+      Lcd_Chr(1,8, short_to_char(vagas));
+    }
 
     // Carro entrando
     if (PORTB.RB1 == 0 && vagas < max_vagas) {
@@ -176,10 +180,5 @@ void main (){
       DesligaBuzzer();
       LimpaLinhaLCD(2);
     }
-
-    if (vagas == 0) {
-      Lcd_out(1,1,"**** LOTADO *****");
-    }
-
   }
 }
