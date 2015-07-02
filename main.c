@@ -80,6 +80,7 @@ void DesligaBuzzer(){
 
 void LimpaLinhaLCD(linha){
   Lcd_out(linha, 1, "                ");
+  //Lcd_Cmd(_LCD_CLEAR);
 }
 
 void main (){
