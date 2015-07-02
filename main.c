@@ -19,7 +19,7 @@ sbit LCD_D6_Direction at TRISD6_bit;
 sbit LCD_D7_Direction at TRISD7_bit;
 // End LCD module connections
 
-unsigned short short_to_char(unsigned short num) {
+unsigned short NumberToChar(unsigned short num) {
   switch (num) {
     case 0: return '0'; break;
     case 1: return '1'; break;
@@ -31,7 +31,7 @@ unsigned short short_to_char(unsigned short num) {
     case 7: return '7'; break;
     case 8: return '8'; break;
     case 9: return '9'; break;
-    default: return '0'; break;
+    default: return '9'; break;
   }
 }
 
@@ -119,7 +119,7 @@ void main (){
       Lcd_out(1,1,"**** LOTADO *****");
     } else {
       Lcd_out(1,1,"Vagas: ");
-      Lcd_Chr(1,8, short_to_char(vagas));
+      Lcd_Chr(1,8, NumberToChar(vagas));
     }
 
     // Carro entrando
