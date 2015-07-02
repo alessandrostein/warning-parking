@@ -82,7 +82,7 @@ void DesligaBuzzer(){
   PORTC.RC1 = 1;
 }
 
-void LimpaLinhaLCD(){
+void LimpaTodoLCD(){
   Lcd_Cmd(_LCD_CLEAR);
 }
 
@@ -105,12 +105,14 @@ void FechaCancela(int numero_cancela){
 void DesligaAlerta(){
   DesligaLed();
   DesligaBuzzer();
-  LimpaLinhaLCD();
+  LimpaTodoLCD();
 }
 
 void LigaAlerta(){
+  LigaLed();
   i = 0;
   do {
+    WaitForSec(1);
     AlternaLed();
 
     for (i; i < 30; i++){
@@ -122,7 +124,6 @@ void LigaAlerta(){
     }
 
     DesligaBuzzer();
-    WaitForSec(1);
   } while (processoCompleto < 1);
 }
 
@@ -173,14 +174,13 @@ void main (){
       processoCompleto = 0;
 
       AbreCancela(1);
-      LigaLed();
       Lcd_out(2,1,"Veiculo entrando ...");
 
       LigaAlerta();
       
       vagas = vagas - 1;
-      FechaCancela(1);
       DesligaAlerta();
+      FechaCancela(1);
     }
 
     // Carro saindo
@@ -188,14 +188,13 @@ void main (){
       processoCompleto = 0;
 
       AbreCancela(2);
-      LigaLed();
       Lcd_out(2,1,"Veiculo saindo ...");
 
       LigaAlerta();
 
       vagas = vagas + 1;
-      FechaCancela(2);
       DesligaAlerta();
+      FechaCancela(2);
     }
   }
 }
