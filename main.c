@@ -107,7 +107,6 @@ void main (){
   Lcd_Init();               // Inicia LCD
   Lcd_Cmd(_LCD_CLEAR);      // Limpar Display
   Lcd_Cmd(_LCD_CURSOR_OFF); // Desliga cursor
-  Lcd_out(1,1,"Vagas: ");
 
   vagas = max_vagas;
 
@@ -118,6 +117,7 @@ void main (){
     if (vagas == 0) {
       Lcd_out(1,1,"**** LOTADO *****");
     } else {
+      Lcd_out(1,1,"Vagas: ");
       Lcd_Chr(1,8, short_to_char(vagas));
     }
 
