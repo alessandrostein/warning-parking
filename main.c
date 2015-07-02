@@ -122,7 +122,7 @@ void main (){
     }
 
     // Carro entrando
-    if (PORTB.RB1 == 0 && vagas < max_vagas) {
+    if (PORTB.RB1 == 0 && vagas > 0) {
       processoCompleto = 0;
 
       LigaLed();
@@ -132,7 +132,7 @@ void main (){
       while(processoCompleto == 0) {
         AlternaLed();
 
-        for (i; i < 6; i++){
+        for (i; i < 30; i++){
           if (processoCompleto == 0) {
             AlternaBuzzer();
             WaitForSec(1);
@@ -152,7 +152,7 @@ void main (){
     }
 
     // Carro saindo
-    if (PORTB.RB2 == 0){
+    if (PORTB.RB2 == 0 && vagas < max_vagas){
       processoCompleto = 0;
 
       LigaLed();
@@ -162,7 +162,7 @@ void main (){
       while(processoCompleto == 0) {
         AlternaLed();
 
-        for (i; i < 6; i++){
+        for (i; i < 30; i++){
           if (processoCompleto == 0) {
             AlternaBuzzer();
             WaitForSec(1);
