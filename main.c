@@ -102,6 +102,29 @@ void FechaCancela(int numero_cancela){
   }
 }
 
+void DesligaAlerta(){
+  DesligaLed();
+  DesligaBuzzer();
+  LimpaLinhaLCD();
+}
+
+void LigaAlerta(){
+  i = 0;
+  do {
+    AlternaLed();
+
+    for (i; i < 30; i++){
+      if (processoCompleto == 0) {
+        AlternaLed();
+        AlternaBuzzer();
+        WaitForSec(1);
+      }
+    }
+
+    DesligaBuzzer();
+    WaitForSec(1);
+  } while (processoCompleto < 1);
+}
 
 void main (){
   ADCON1 = 0x06; // Configura todas portas como Digital
@@ -153,28 +176,11 @@ void main (){
       LigaLed();
       Lcd_out(2,1,"Veiculo entrando ...");
 
-      i = 0;
-      
-      do {
-        AlternaLed();
-
-        for (i; i < 30; i++){
-          if (processoCompleto == 0) {
-            AlternaLed();
-            AlternaBuzzer();
-            WaitForSec(1);
-          }
-        }
-
-        DesligaBuzzer();
-        WaitForSec(1);
-      } while (processoCompleto < 1);
+      LigaAlerta();
       
       vagas = vagas - 1;
       FechaCancela(1);
-      DesligaLed();
-      DesligaBuzzer();
-      LimpaLinhaLCD();
+      DesligaAlerta();
     }
 
     // Carro saindo
@@ -185,27 +191,11 @@ void main (){
       LigaLed();
       Lcd_out(2,1,"Veiculo saindo ...");
 
-      i = 0;
-      do {
-        AlternaLed();
-
-        for (i; i < 30; i++){
-          if (processoCompleto == 0) {
-            AlternaLed();
-            AlternaBuzzer();
-            WaitForSec(1);
-          }
-        }
-
-        DesligaBuzzer();
-        WaitForSec(1);
-      } while (processoCompleto < 1);
+      LigaAlerta();
 
       vagas = vagas + 1;
       FechaCancela(2);
-      DesligaLed();
-      DesligaBuzzer();
-      LimpaLinhaLCD();
+      DesligaAlerta();
     }
   }
 }
