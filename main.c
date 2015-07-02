@@ -174,7 +174,7 @@ void main (){
       processoCompleto = 0;
 
       AbreCancela(1);
-      Lcd_out(2,1,"Veiculo entrando ...");
+      Lcd_out(2,1,"Veiculo entrando");
 
       LigaAlerta();
       
@@ -188,7 +188,7 @@ void main (){
       processoCompleto = 0;
 
       AbreCancela(2);
-      Lcd_out(2,1,"Veiculo saindo ...");
+      Lcd_out(2,1,"Veiculo saindo");
 
       LigaAlerta();
 
