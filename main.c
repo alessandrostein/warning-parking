@@ -74,25 +74,40 @@ void DesligaLed(){
   PORTD = 0b00000000;
 }
 
+void LigaTodosLed(){
+  PORTD = 0b11111111;
+}
+
 void DesligaBuzzer(){
   PORTC.RC1 = 1;
 }
 
-void LimpaLinhaLCD(linha){
-  Lcd_out(linha, 1, "                ");
-  //Lcd_Cmd(_LCD_CLEAR);
+void LimpaLinhaLCD(){
+  Lcd_Cmd(_LCD_CLEAR);
 }
+
+void AbreCancela(int numero_cancela){
+  if (numero_cancela == 1) {
+     PORTC.RC0 = 1;
+  } else {
+     PORTE.RE0 = 1;
+  }
+}
+
+void FechaCancela(int numero_cancela){
+  if (numero_cancela == 1) {
+     PORTC.RC0 = 0;
+  } else {
+     PORTE.RE0 = 0;
+  }
+}
+
 
 void main (){
   ADCON1 = 0x06; // Configura todas portas como Digital
 
   // Configurações do LED 1
   TRISD = 0x00; // Configura registrador como Saída
-  PORTD = 0xF0;
-
-  // Configurações do LED 2
-  TRISB = 0x00; // Configura registrador como Saída
-  PORTB = 0x0F;
 
   // Configurações do Buzzy
   TRISC.RC1 = 0; // Configura como Saída
@@ -108,11 +123,18 @@ void main (){
   Lcd_Init();               // Inicia LCD
   Lcd_Cmd(_LCD_CLEAR);      // Limpar Display
   Lcd_Cmd(_LCD_CURSOR_OFF); // Desliga cursor
+  
+  // ++ Configurações do Relé 1 => Carro entrando
+  TRISC.RC0 = 0; // Configura como Saída
+  PORTC.RC0 = 0; // Inicia desligado => Cancela fechada
+  // ++ Configurações do Relé 2 => Carro Saindo
+  TRISE.RE0 = 0; // Configura como Saída
+  PORTE.RE0 = 0; // Inicia desligado => Cancela fechada
 
   vagas = max_vagas;
 
   DesligaBuzzer();
-  DesligaLed();
+  LigaTodosLed();
 
   while (1){
     if (vagas == 0) {
@@ -121,65 +143,69 @@ void main (){
       Lcd_out(1,1,"Vagas: ");
       Lcd_Chr(1,8, NumberToChar(vagas));
     }
+    LigaTodosLed();
 
     // Carro entrando
     if (PORTB.RB1 == 0 && vagas > 0) {
       processoCompleto = 0;
 
+      AbreCancela(1);
       LigaLed();
       Lcd_out(2,1,"Veiculo entrando ...");
 
       i = 0;
-      while(processoCompleto == 0) {
+      
+      do {
         AlternaLed();
 
         for (i; i < 30; i++){
           if (processoCompleto == 0) {
+            AlternaLed();
             AlternaBuzzer();
             WaitForSec(1);
-          } else {
-            vagas = vagas - 1;
-            DesligaLed();
-            DesligaBuzzer();
-            LimpaLinhaLCD(2);
           }
         }
-      }
 
+        DesligaBuzzer();
+        WaitForSec(1);
+      } while (processoCompleto < 1);
+      
       vagas = vagas - 1;
+      FechaCancela(1);
       DesligaLed();
       DesligaBuzzer();
-      LimpaLinhaLCD(2);
+      LimpaLinhaLCD();
     }
 
     // Carro saindo
     if (PORTB.RB2 == 0 && vagas < max_vagas){
       processoCompleto = 0;
 
+      AbreCancela(2);
       LigaLed();
       Lcd_out(2,1,"Veiculo saindo ...");
 
       i = 0;
-      while(processoCompleto == 0) {
+      do {
         AlternaLed();
 
         for (i; i < 30; i++){
           if (processoCompleto == 0) {
+            AlternaLed();
             AlternaBuzzer();
             WaitForSec(1);
-          } else {
-            vagas = vagas - 1;
-            DesligaLed();
-            DesligaBuzzer();
-            LimpaLinhaLCD(2);
           }
         }
-      }
+
+        DesligaBuzzer();
+        WaitForSec(1);
+      } while (processoCompleto < 1);
 
       vagas = vagas + 1;
+      FechaCancela(2);
       DesligaLed();
       DesligaBuzzer();
-      LimpaLinhaLCD(2);
+      LimpaLinhaLCD();
     }
   }
 }
